@@ -65,7 +65,7 @@ const MyChats: React.FC<MyChatsProps> = ({fetchAgain}) => {
     bg={darkTheme ?  '#171718' :'white'}
     w={{base: '100%', md: '31%'}}
     borderRadius={'lg'}
-    borderWidth={'1px'}
+    borderWidth={'5px'}
     borderColor={darkTheme ? '#171718' : '#E0E6EE'}
     transition={'all ease 0.35s'}
     >
@@ -118,7 +118,9 @@ const MyChats: React.FC<MyChatsProps> = ({fetchAgain}) => {
               key={chat._id}
               transition={'all ease 0.35s'}
               >
-                <Text>
+                <Text
+                textTransform={'capitalize'}
+                >
                   {!chat.isGroupChat ? (
                     getSenderName(loggedUser, chat.users)
                   ) : chat.chatName}

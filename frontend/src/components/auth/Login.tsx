@@ -37,7 +37,6 @@ const Login = () => {
                 }
             }
             const {data} = await axios.post('/api/v1/user/login', {email, password}, config)
-            console.log(data)
             setLoading(false)
             toast({
                 title: 'Login Successful',
@@ -51,7 +50,6 @@ const Login = () => {
             navigate('/chats')
         } catch (error: unknown) {
             const axiosError = error as TAxiosError
-            console.log(axiosError)
             setLoading(false)
             toast({
                 title: 'An Error Occured While Login',
@@ -78,8 +76,15 @@ const Login = () => {
                 </InputRightElement>
             </InputGroup>
         </FormControl>
-        <Button colorScheme='blue' width={'100%'} style={{marginTop: 15}} isLoading={loading} onClick={submitHandler}>Login</Button>
-        <Button colorScheme='red' width={'100%'} style={{marginTop: 15}} disabled={loading} onClick={() => {
+        <Button 
+            backgroundColor='#70c3d6' 
+            color={'white'}
+            _hover={{
+                backgroundColor:'#39a0b7' 
+            }}
+            transition={'all ease 0.35s'}
+        width={'100%'} style={{marginTop: 15}} isLoading={loading} onClick={submitHandler}>Login</Button>
+        <Button colorScheme='blue' width={'100%'} style={{marginTop: 15}} disabled={loading} onClick={() => {
             setEmail('sam@gmail.com')
             setPassword('password')
         }}>Get Guest User Credentials</Button>

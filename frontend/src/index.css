@@ -41,3 +41,47 @@ code {
   overflow-y: scroll;
   scrollbar-width: none;
 }
+
+/* .home__page{
+  height: 100vh;
+  background-image: url('../src/assets/banner-chat.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #92b7e9;
+} */
+.start-page{
+  background-color: #92b7e9;
+  min-height: 100vh;
+}
+.get-started{
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-family: Work sans;
+  background-color: #92B7E9;
+  padding: 8px 24px;
+  border-radius: 6px;
+  transition: all ease 0.35s;
+}
+
+@media screen and (min-width: 575px) {
+  .get-started{
+    display: flex;
+  }
+}
+
+.get-started svg{
+  transition: all ease 0.35s;
+}
+
+.get-started:hover{
+  background-color: #70c3d6;
+  color: white;
+}
+
+.get-started:hover svg{
+  transform: translateX(10px);
+  fill: white;
+}

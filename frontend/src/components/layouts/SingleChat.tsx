@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useChatState } from '../../context/ChatProvider';
 import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -13,6 +13,10 @@ import {socket} from '../../config/socketConfig'
 import { ChatType } from '../../types/ChatType';
 import Lottie from 'react-lottie';
 import animationData from '../../assets/animations/typing.json';
+import { BsEmojiSmile } from "react-icons/bs";
+import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
+import { Theme } from 'emoji-picker-react';
+import InputEmoji from '../miscellaneous/InputEmoji';
 
 type SingleChatProps = {
     fetchAgain: boolean;
@@ -28,8 +32,10 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
     const [socketConnected, setSocketConnected] = useState(false)
     const [typing, setTyping] = useState(false)
     const [isTyping, setIsTyping] = useState(false)
+    const [showEmoji, setShowEmoji] = useState(false)
+    const [cursorPosition, setCursorPosition] = useState(0)
 
-    const {user, selectedChat, setSelectedChat, notification, setNotification} = useChatState()
+    const {user, selectedChat, setSelectedChat, notification, setNotification, darkTheme} = useChatState()
 
     const toast = useToast()
 
@@ -73,6 +79,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
 
     const sendMessage = async (e: any) => {
         if(e.key === 'Enter' && newMessage){
+            setShowEmoji(false)
             socket.emit('stop__typing', selectedChat?._id)
             try {
                 const config = {
@@ -126,6 +133,38 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
         }, timerLength)
     }
 
+    let msgInput = useRef<HTMLInputElement | null>(null)
+
+    const handleShowEmoji = () => {
+        msgInput.current?.focus()
+        setShowEmoji(!showEmoji)
+    }
+
+    const pickEmoji = (emoji: EmojiClickData, event: MouseEvent) => {
+        if(msgInput.current){
+            msgInput.current.focus()
+            if(emoji && emoji.emoji){
+                const codePoint = emoji.emoji.codePointAt?.(0);
+        
+                if (codePoint !== undefined) {
+                    let hexEmoji = codePoint.toString(16);
+                    let emo = String.fromCodePoint(Number('0x' + hexEmoji));
+
+                    const start = newMessage.substring(0, msgInput.current.selectionStart ?? 0);
+                    const end = newMessage.substring(msgInput.current.selectionEnd ?? 0);
+
+                    const msg = start + emo + end;
+                    setNewMessage(msg);
+                    setCursorPosition(start.length + emo.length);
+                }
+            }
+        }
+    }
+    
+    useEffect(() => {
+        msgInput.current?.setSelectionRange(cursorPosition, cursorPosition)
+    },[cursorPosition])
+
     useEffect(() => {
         fetchMessages()
         selectedChatCompare = selectedChat
@@ -153,6 +192,8 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
         socket.on('typing', () => setIsTyping(true))
         socket.on('stop__typing', () => setIsTyping(false))
     },[selectedChat])
+
+    
   return (
     <>
         {selectedChat ? (
@@ -166,6 +207,8 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                 display={'flex'}
                 justifyContent={{base: 'space-between'}}
                 alignItems={'center'}
+                color={darkTheme ? 'white' : 'black'}
+                textTransform={'capitalize'}
                 >
                     <IconButton 
                         aria-label='back-icon'
@@ -180,7 +223,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                         </>
                     ) : (
                         <>
-                            {selectedChat.chatName.toUpperCase()}
+                            {selectedChat.chatName}
                             <UpdateGroupChatModal 
                                 fetchAgain={fetchAgain}
                                 setFetchAgain={setFetchAgain}
@@ -194,7 +237,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                 flexDir={'column'}
                 justifyContent={'flex-end'}
                 p={3}
-                bg={'#E8E8E8'}
+                bg={ darkTheme ? '#2b2b31' :'#E8E8E8'}
                 w={'100%'}
                 height={'100%'}
                 borderRadius={'lg'}
@@ -207,21 +250,51 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                             <ScrollableChat messages={messages} />
                         </div>
                     )}
-                    <FormControl onKeyDown={sendMessage} isRequired mt={3}>
-                        {isTyping ? <div>
-                                <Lottie 
-                                    width={70}
-                                    style={{marginBottom: 15, marginLeft: 0}}
-                                    options={defaultOPtions}
-                                /> 
-                            </div>
-                            : <></>}
+                    {isTyping ? <div>
+                            <Lottie 
+                                width={70}
+                                style={{marginBottom: 15, marginLeft: 0}}
+                                options={defaultOPtions}
+                            /> 
+                        </div>
+                        : <></>}
+                    
+                    <FormControl onKeyDown={sendMessage} isRequired mt={3} 
+                    display={'flex'}
+                    position={'relative'}
+                    >
+                        {
+                            showEmoji && (
+                                <div style={{position: 'absolute', bottom: '110%', left: '0'}}>
+                                    <EmojiPicker 
+                                        height={300} 
+                                        width={300}  
+                                        theme={darkTheme ? Theme.DARK : Theme.LIGHT} 
+                                        previewConfig={{
+                                            showPreview: false
+                                        }}
+                                        style={{
+                                            boxShadow: darkTheme ? '0px 0px 4px 4px #1d1d1d87' : '0px 0px 4px 4px #bcbcbc63',
+                                        }}
+                                        emojiStyle={EmojiStyle.APPLE}
+                                        onEmojiClick={pickEmoji}
+                                    />
+                                </div>
+                            )
+                        }
+                        <IconButton 
+                            icon={<BsEmojiSmile style={{fontSize: '18px'}}/>} 
+                            aria-label='emoji'
+                            onClick={handleShowEmoji}
+                        />
                         <Input
                         variant={'filled'}
                         bg={'#E0E0E0'}
                         placeholder='Enter a message...'
                         onChange={typingHandler}
                         value={newMessage}
+                        _focus={{color: darkTheme ? 'white' : 'black'}}
+                        ref={msgInput}
                         />
                     </FormControl>
                 </Box>
@@ -237,6 +310,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                 fontSize={'3xl'}
                 pb={3}
                 fontFamily={'Work sans'}
+                color={darkTheme ? 'white' : 'black'}
                 >
                     Click on user to start chatting
                 </Text>

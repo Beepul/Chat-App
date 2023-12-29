@@ -41,14 +41,7 @@ const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     if(userData){
         const userInfo = JSON.parse(userData)
         setUser(userInfo)
-        if(!userInfo){
-            navigate('/')
-        }
-    }else{
-        navigate('/')
     }
-
-
   },[navigate])
   return (
     <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, notification, setNotification,darkTheme,setDarkTheme }}>

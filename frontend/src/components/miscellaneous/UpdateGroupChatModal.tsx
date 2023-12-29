@@ -24,7 +24,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const toast = useToast()
 
-    const {selectedChat, setSelectedChat, user} = useChatState()
+    const {selectedChat, setSelectedChat, user, darkTheme} = useChatState()
 
     const handleRemove = async (userToRemove: User | null) => {
         if(selectedChat?.groupAdmin._id !== user?._id && userToRemove?._id !== user?._id){
@@ -237,14 +237,16 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
         />
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent backgroundColor={darkTheme ? '#171718' : 'white'}>
             <ModalHeader
             fontSize={'35px'}
             fontFamily={'Work sans'}
             display={'flex'}
             justifyContent={'center'}
+            color={darkTheme ? 'white' : 'black'}
+            textTransform={'capitalize'}
             >{selectedChat?.chatName}</ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton color={darkTheme ? 'white' : 'black'} />
             <ModalBody>
                 <Box
                 w={'100%'}
@@ -263,6 +265,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                 <FormControl display={'flex'}>
                     <Input placeholder='Chat Name' mb={3} value={groupChatName} 
                     onChange={(e) => setGroupChatName(e.target.value)}
+                    color={darkTheme ? 'white' : 'black'}
                     />
                     <Button
                     variant={'solid'}
@@ -277,6 +280,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                     placeholder='Add Users eg: John, Jane'
                     mb={1}
                     onChange={(e) => handleSearch(e.target.value)}
+                    color={darkTheme ? 'white' : 'black'}
                     />
                 </FormControl>
                 {loading ? <Spinner size={'lg'} /> : (

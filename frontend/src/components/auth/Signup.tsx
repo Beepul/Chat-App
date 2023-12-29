@@ -43,11 +43,9 @@ const Signup = () => {
                       'Content-Type': 'multipart/form-data'
                     }
                 })
-                console.log(res)
                 setPic(res.data.image.url)
                 setLoading(false)
             } catch (error) {
-                console.log(error)
                 const axiosError = error as TAxiosError
                 setLoading(false)
                 toast({
@@ -102,7 +100,6 @@ const Signup = () => {
                 }
             }
             const {data} = await axios.post('api/v1/user', {name, email, password, pic}, config)
-            console.log(data)
             setLoading(false)
             toast({
                 title: 'Sign Up Seccessful',
@@ -114,10 +111,8 @@ const Signup = () => {
             localStorage.setItem('userInfo', JSON.stringify(data.user))
             setLoading(false)
             window.location.reload()
-            // navigate('/chats')
         } catch (error: unknown) {
             const axiosError = error as TAxiosError
-            console.log(axiosError)
             setLoading(false)
             toast({
                 title: 'An Error Occured While Sign Up',
@@ -161,7 +156,14 @@ const Signup = () => {
             <FormLabel>Upload your picture</FormLabel>
             <Input type='file' p={1.5} accept='image/*' onChange={postDetails} />
         </FormControl>
-        <Button colorScheme='blue' width={'100%'} isLoading={loading} style={{marginTop: 15}} onClick={submitHandler}>Sign Up</Button>
+        <Button 
+            backgroundColor='#70c3d6' 
+            color={'white'}
+            _hover={{
+                backgroundColor:'#39a0b7' 
+            }}
+            transition={'all ease 0.35s'}
+            width={'100%'} isLoading={loading} style={{marginTop: 15}} onClick={submitHandler}>Sign Up</Button>
         
     </VStack>
   )

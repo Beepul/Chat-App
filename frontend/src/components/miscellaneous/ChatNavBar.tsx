@@ -110,16 +110,19 @@ const ChatNavBar = () => {
       backgroundColor={darkTheme ? '#171718' : 'white'}
       transition={'all ease 0.3s'}
       w={'100%'}
-      p={'5px 10px 5px 10px'}
+      p={'5px 25px 5px 10px'}
       borderWidth={'5px'}
       borderColor={darkTheme ? '#171718' : '#E0E6EE'}
+      maxWidth={'1270px'}
+      margin={'0 auto'}
+      borderRadius={'8px'}
       >
         <Tooltip label='search user to chat' hasArrow placement='bottom-end'>
-          <Button variant={'ghost'} onClick={onOpen}>
+          <Button variant={'ghost'} onClick={onOpen} _hover={{backgroundColor: darkTheme ? '#2B2B31' : '#EDF2F7'}}>
             <IoSearch
               style={{color: `${darkTheme ? 'White' : 'black'}`, transition: 'all ease 0.35s'}}
             />
-            <Text display={{base: 'none', md: 'flex'}} px={4}>Search User</Text>  
+            <Text display={{base: 'none', md: 'flex'}} px={4} color={darkTheme ? 'white' : 'black'}>Search User</Text>  
           </Button>
         </Tooltip>
         <Text fontSize={'2xl'} fontFamily={'Work sans'}
@@ -195,17 +198,17 @@ const ChatNavBar = () => {
           </Menu>
         </Box>
       </Box>
-      <Drawer placement='left' onClose={onClose} isOpen={isOpen} >
+      <Drawer placement='left' onClose={onClose} isOpen={isOpen}  >
         <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth='1px'>Search User</DrawerHeader>
+        <DrawerContent backgroundColor={darkTheme ? '#171718' : 'white'}>
+          <DrawerHeader borderBottomWidth='1px' color={darkTheme ? 'white' : 'black'}>Search User</DrawerHeader>
           <DrawerBody>
             <Box
               display={'flex'}
               paddingBottom={'2px'}
               mb={'6px'}
             >
-              <Input placeholder='Search by name or email' mr={2} value={search} onChange={(e) => setSearch(e.target.value)}/>
+              <Input placeholder='Search by name or email' mr={2} color={darkTheme ? 'white' : 'black'} value={search} onChange={(e) => setSearch(e.target.value)}/>
               <Button onClick={handleSearch}>Go</Button>
             </Box>
             {loading? (

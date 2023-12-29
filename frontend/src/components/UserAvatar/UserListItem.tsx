@@ -18,6 +18,7 @@ const UserListItem:React.FC<UserListItemProps> = ({user , handleFunction}) => {
         background: '#38B2AC',
         color: "white"
     }}
+    transition={'all ease 0.35s'}
     width={'100%'}
     display={'flex'}
     alignItems={'center'}

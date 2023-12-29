@@ -19,7 +19,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({fetchAgain, setFetchAgain})=> {
     bg={darkTheme ? '#171718' : 'white'}
     w={{base: '100%', md: '68%'}}
     borderRadius={'lg'}
-    borderWidth={'1px'}
+    borderWidth={'5px'}
     borderColor={darkTheme ? '#171718' : '#E0E6EE'}
     transition={'all ease 0.35s'}
     >

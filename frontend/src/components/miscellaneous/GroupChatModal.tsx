@@ -22,7 +22,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const {user,chats,setChats} = useChatState()
+  const {user,chats,setChats,darkTheme} = useChatState()
   
 
   const handleSearch = async (query: string) => {
@@ -118,11 +118,11 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
     <>
     <span onClick={onOpen}>{children}</span>
 
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader fontSize={'35px'} fontFamily={'Work sans'} display={'flex'} justifyContent={'center'}>Create Group Chat</ModalHeader>
-        <ModalCloseButton />
+      <ModalContent backgroundColor={darkTheme ? '#171718' : 'white'}>
+        <ModalHeader fontSize={'35px'} fontFamily={'Work sans'} color={darkTheme ? 'white' : 'black'} display={'flex'} justifyContent={'center'}>Create Group Chat</ModalHeader>
+        <ModalCloseButton color={darkTheme ? 'white' : 'black'}/>
         <ModalBody
         display={'flex'}
         flexDir={'column'}
@@ -133,6 +133,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
             placeholder='Chat Name'
             mb={3}
             onChange={(e) => setGroupChatName(e.target.value)}
+            color={darkTheme ? 'white' : 'black'}
             />
           </FormControl>
           <FormControl>
@@ -140,6 +141,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
             placeholder='Add Users eg: John, Jane'
             mb={1}
             onChange={(e) => handleSearch(e.target.value)}
+            color={darkTheme ? 'white' : 'black'}
             />
           </FormControl>
           {/* seledted users */}
