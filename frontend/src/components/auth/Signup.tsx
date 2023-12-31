@@ -4,9 +4,8 @@ import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { VStack } from '@chakra-ui/layout'
 import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
-import axios, { AxiosError } from 'axios'
-import { useNavigate } from 'react-router'
 import { TAxiosError } from '../../types/ErrorType'
+import beeAxios from '../../config/axiosConfig'
 
 const Signup = () => {
     const [name, setName] = useState('')
@@ -17,8 +16,6 @@ const Signup = () => {
     const [pic, setPic] = useState('')
     const [show, setShow] = useState(false)
     const toast = useToast()
-
-    const navigate = useNavigate()
 
     const postDetails = async (e:  React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement
@@ -38,7 +35,7 @@ const Signup = () => {
             try {
                 const data = new FormData()
                 data.append('pic', file)
-                const res = await axios.post('api/v1/user/upload-img', data , {
+                const res = await beeAxios.post('api/v1/user/upload-img', data , {
                     headers: {
                       'Content-Type': 'multipart/form-data'
                     }
@@ -99,7 +96,7 @@ const Signup = () => {
                     'Content-type': 'application/json'
                 }
             }
-            const {data} = await axios.post('api/v1/user', {name, email, password, pic}, config)
+            const {data} = await beeAxios.post('api/v1/user', {name, email, password, pic}, config)
             setLoading(false)
             toast({
                 title: 'Sign Up Seccessful',
@@ -130,11 +127,11 @@ const Signup = () => {
             <FormLabel>Name</FormLabel>
             <Input placeholder='Enter Your Name' onChange={(e)=> setName(e.target.value)} />
         </FormControl>
-        <FormControl id='email' isRequired>
+        <FormControl id='your-email' isRequired>
             <FormLabel>Email</FormLabel>
             <Input placeholder='Enter Your Email' onChange={(e)=> setEmail(e.target.value)} />
         </FormControl>
-        <FormControl id='password' isRequired>
+        <FormControl id='your-password' isRequired>
             <FormLabel>Password</FormLabel>
             <InputGroup>
                 <Input placeholder='Enter Your Password' type={show ? 'text' : 'password'} onChange={(e)=> setPassword(e.target.value)} />

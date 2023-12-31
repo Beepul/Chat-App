@@ -5,22 +5,23 @@ import Signup from '../components/auth/Signup';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../components/public/Header';
+import { useChatState } from '../context/ChatProvider';
 
 const StartPage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const userData = localStorage.getItem('userInfo')
-   
-    if(userData){
-        const userInfo = JSON.parse(userData)
+    const userDataString = localStorage.getItem('userInfo') ;
 
-        if(userInfo){
-            navigate('/chats')
-        }
+    let userData = null
+    if(userDataString){
+      userData = JSON.parse(userDataString)
     }
-
-  },[navigate])
+  
+    if (userData) {
+      navigate('/chats');
+    }
+  }, []);
 	return (
 		<div>
 			<Header />
@@ -28,7 +29,7 @@ const StartPage = () => {
 				<Container maxW={'xl'} centerContent
 				>
 					<Box bg={'white'} mt={'130px'} w={'100%'} textColor={'black'} borderRadius={'lg'} borderWidth={'1px'}>
-						<Tabs variant="soft-rounded">
+						<Tabs variant="soft-rounded" p={5}>
 							<TabList p={4}>
 								<Tab width={'50%'} p={3} _selected={{backgroundColor:'#70c3d6', color: 'white'}}>Login</Tab>
 								<Tab width={'50%'} p={3} _selected={{backgroundColor:'#70c3d6',color: 'white'}}>Sign Up</Tab>

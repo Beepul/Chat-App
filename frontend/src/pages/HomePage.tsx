@@ -4,22 +4,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Button, Heading, Image, Text } from '@chakra-ui/react'
 import bannerOne from '../assets/ban-1.png'
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useChatState } from '../context/ChatProvider'
 
 const HomePage = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const userData = localStorage.getItem('userInfo')
-   
-    if(userData){
-        const userInfo = JSON.parse(userData)
+    const userDataString = localStorage.getItem('userInfo') ;
 
-        if(userInfo){
-            navigate('/chats')
-        }
+    let userData = null
+    if(userDataString){
+      userData = JSON.parse(userDataString)
     }
-
-  },[navigate])
+  
+    if (userData) {
+      navigate('/chats');
+    }
+  }, []);
   return (
     <div className='home__page'>
       <Header />
@@ -48,7 +49,11 @@ const HomePage = () => {
             <Text
             mb={10}
             >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam imperdiet dolor neque, ac convallis dolor mollis et. Maecenas mollis bibendum magna.</Text>
-            <Link to={'/start'}>
+            <Link to={'/start'}
+            style={{
+              width: 'fit-content'
+            }}
+            >
               <Button
               style={{
                 display: 'flex',

@@ -7,7 +7,7 @@ const protect = async (req, res, next) => {
 	const header = req.headers.authorization || req.headers.Authorization;
 
 	if (!header || !header.startsWith('Bearer ')) {
-		return next(new BMError(401, 'Please login to continue'));
+		return next(new BMError(403, 'Please login to continue'));
 	}
 
 	const token = header.split(' ')[1];

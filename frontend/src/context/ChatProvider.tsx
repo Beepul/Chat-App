@@ -42,7 +42,7 @@ const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         const userInfo = JSON.parse(userData)
         setUser(userInfo)
     }
-  },[navigate])
+  },[])
   return (
     <ChatContext.Provider value={{ user, setUser, selectedChat, setSelectedChat, chats, setChats, notification, setNotification,darkTheme,setDarkTheme }}>
       {children}

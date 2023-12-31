@@ -7,13 +7,14 @@ import { useChatState } from '../../context/ChatProvider';
 import ProfileModal from './ProfileModal';
 import { useNavigate } from 'react-router-dom';
 import { TAxiosError } from '../../types/ErrorType';
-import axios from 'axios';
 import { User } from '../../types/UserType';
 import ChatLoading from '../layouts/ChatLoading';
 import UserListItem from '../UserAvatar/UserListItem';
 import { getSenderName } from '../../config/chatLogics';
 import { LuSunDim } from "react-icons/lu";
 import { IoMoonOutline } from "react-icons/io5";
+import beeAxios from '../../config/axiosConfig';
+import { socket } from '../../config/socketConfig';
 
 
 const ChatNavBar = () => {
@@ -24,13 +25,15 @@ const ChatNavBar = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const {user, setSelectedChat, chats, setChats, notification, setNotification , darkTheme , setDarkTheme} = useChatState()
+  const {user,setUser, setSelectedChat, chats, setChats, notification, setNotification , darkTheme , setDarkTheme} = useChatState()
   const navigate = useNavigate()
 
   const toast = useToast()
 
   const logoutHandler = () => {
+    setUser(null)
     localStorage.removeItem('userInfo')
+    socket.disconnect()
     navigate('/')
   }
 
@@ -51,7 +54,7 @@ const ChatNavBar = () => {
           'Authorization': `Bearer ${user?.token}`
         }
       }
-      const {data} = await axios.get(`/api/v1/user?search=${search}`, config)
+      const {data} = await beeAxios.get(`/api/v1/user?search=${search}`, config)
       setLoading(false)
       setSearchResult(data.users)
     } catch (error: unknown) {
@@ -79,7 +82,7 @@ const ChatNavBar = () => {
         }
       }
 
-      const {data} = await axios.post('/api/v1/chat', {userId}, config)
+      const {data} = await beeAxios.post('/api/v1/chat', {userId}, config)
 
       if(!chats.find((chat) => chat._id === data._id)) setChats([data.chat,...chats])
       setSelectedChat(data.chat)

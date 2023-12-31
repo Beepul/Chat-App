@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useChatState } from '../../context/ChatProvider'
 import { Box, Button, Stack, Text, useToast } from '@chakra-ui/react'
-import axios from 'axios'
 import { TAxiosError } from '../../types/ErrorType'
-import { IoMdPersonAdd } from "react-icons/io";
 import ChatLoading from './ChatLoading'
 import { getSenderName } from '../../config/chatLogics'
 import { User } from '../../types/UserType'
 import GroupChatModal from '../miscellaneous/GroupChatModal'
 import { FaPlus } from "react-icons/fa6";
+import beeAxios from '../../config/axiosConfig'
 
 type MyChatsProps = {
   fetchAgain: boolean;
@@ -33,7 +32,7 @@ const MyChats: React.FC<MyChatsProps> = ({fetchAgain}) => {
           Authorization: `Bearer ${user?.token}`
         }
       }
-      const {data} = await axios.get('/api/v1/chat', config)
+      const {data} = await beeAxios.get('/api/v1/chat', config)
       setChats(data.chats)
     } catch (error: unknown) {
       const axiosError = error as TAxiosError

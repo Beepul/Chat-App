@@ -3,16 +3,19 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { VStack } from '@chakra-ui/layout'
 import { useToast } from '@chakra-ui/toast'
-import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { TAxiosError } from '../../types/ErrorType'
 import { useNavigate } from 'react-router'
+import beeAxios from '../../config/axiosConfig'
+import { useChatState } from '../../context/ChatProvider'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const {setUser} = useChatState()
 
     const toast = useToast()
     const navigate = useNavigate()
@@ -36,7 +39,7 @@ const Login = () => {
                     'Content-type': 'application/json'
                 }
             }
-            const {data} = await axios.post('/api/v1/user/login', {email, password}, config)
+            const {data} = await beeAxios.post('/api/v1/user/login', {email, password}, config)
             setLoading(false)
             toast({
                 title: 'Login Successful',
@@ -45,6 +48,7 @@ const Login = () => {
                 isClosable: true,
                 position: 'bottom'
             })
+            setUser(data.user)
             localStorage.setItem('userInfo', JSON.stringify(data.user))
             setLoading(false)
             navigate('/chats')
@@ -84,7 +88,7 @@ const Login = () => {
             }}
             transition={'all ease 0.35s'}
         width={'100%'} style={{marginTop: 15}} isLoading={loading} onClick={submitHandler}>Login</Button>
-        <Button colorScheme='blue' width={'100%'} style={{marginTop: 15}} disabled={loading} onClick={() => {
+        <Button colorScheme='blue' width={'100%'} style={{marginTop: 10}} disabled={loading} onClick={() => {
             setEmail('sam@gmail.com')
             setPassword('password')
         }}>Get Guest User Credentials</Button>

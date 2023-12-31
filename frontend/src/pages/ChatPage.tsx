@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { useChatState } from '../context/ChatProvider'
 import { Box } from '@chakra-ui/react'
 import MyChats from '../components/layouts/MyChats'
 import ChatBox from '../components/layouts/ChatBox'
 import ChatNavBar from '../components/miscellaneous/ChatNavBar'
-import { useNavigate } from 'react-router-dom'
 
 const ChatPage = () => {
   const [fetchAgain, setFetchAgain] = useState(false)
   const { user , darkTheme} = useChatState()
-  const navigate = useNavigate()
-  useEffect(() => {
-    if(!user){
-      navigate('/')
-    }
-  },[user])
+
   return (
     <div
     className="App"

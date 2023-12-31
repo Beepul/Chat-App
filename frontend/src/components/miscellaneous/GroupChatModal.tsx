@@ -2,10 +2,10 @@ import { Box, Button, FormControl, Input, Modal, ModalBody, ModalCloseButton, Mo
 import React, { useState } from 'react'
 import { User } from '../../types/UserType'
 import { useChatState } from '../../context/ChatProvider'
-import axios from 'axios'
 import { TAxiosError } from '../../types/ErrorType'
 import UserListItem from '../UserAvatar/UserListItem'
 import UserBadgeItem from '../UserAvatar/UserBadgeItem'
+import beeAxios from '../../config/axiosConfig'
 
 
 type GroupChatModalProps = {
@@ -37,7 +37,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
           Authorization: `Bearer ${user?.token}`
         }
       }
-      const {data} = await axios.get(`/api/v1/user?search=${search}`, config)
+      const {data} = await beeAxios.get(`/api/v1/user?search=${search}`, config)
 
       setLoading(false)
       setSearchResult(data.users)
@@ -70,7 +70,7 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({children}) => {
           Authorization: `Bearer ${user?.token}`
         }
       }
-      const {data} = await axios.post('/api/v1/chat/group', {
+      const {data} = await beeAxios.post('/api/v1/chat/group', {
         name: groupChatName, 
         users: selectedUsers
       },config)

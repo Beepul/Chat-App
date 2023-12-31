@@ -5,7 +5,6 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { getFullSender, getSenderName } from '../../config/chatLogics';
 import ProfileModal from '../miscellaneous/ProfileModal';
 import UpdateGroupChatModal from '../miscellaneous/UpdateGroupChatModal';
-import axios from 'axios';
 import { TAxiosError } from '../../types/ErrorType';
 import ScrollableChat from './ScrollableChat';
 import { Message } from '../../types/MessageType';
@@ -16,7 +15,7 @@ import animationData from '../../assets/animations/typing.json';
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 import { Theme } from 'emoji-picker-react';
-import InputEmoji from '../miscellaneous/InputEmoji';
+import beeAxios from '../../config/axiosConfig';
 
 type SingleChatProps = {
     fetchAgain: boolean;
@@ -59,7 +58,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                     Authorization: `Bearer ${user?.token}`
                 }
             }
-            const {data} = await axios.get(`/api/v1/message/${selectedChat._id}`, config)
+            const {data} = await beeAxios.get(`/api/v1/message/${selectedChat._id}`, config)
             setMessages(data.message)
             setLoading(false)
             socket.emit('join__chat', selectedChat._id)
@@ -88,7 +87,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                         Authorization: `Bearer ${user?.token}`
                     }
                 }
-                const {data} = await axios.post('/api/v1/message', {
+                const {data} = await beeAxios.post('/api/v1/message', {
                     content: newMessage,
                     chatId: selectedChat?._id
                 } ,config)

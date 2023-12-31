@@ -5,8 +5,8 @@ import { useChatState } from '../../context/ChatProvider';
 import { User } from '../../types/UserType';
 import UserBadgeItem from '../UserAvatar/UserBadgeItem';
 import { TAxiosError } from '../../types/ErrorType';
-import axios from 'axios';
 import UserListItem from '../UserAvatar/UserListItem';
+import beeAxios from '../../config/axiosConfig';
 
 type UpdateGroupChatModalProps = {
     fetchAgain: boolean;
@@ -44,7 +44,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                   Authorization: `Bearer ${user?.token}`
                 }
               }
-            const {data} = await axios.put(`/api/v1/chat/group/remove-user`, {
+            const {data} = await beeAxios.put(`/api/v1/chat/group/remove-user`, {
                 chatId: selectedChat?._id,
                 userId: userToRemove?._id
             } ,config)
@@ -94,7 +94,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                   Authorization: `Bearer ${user?.token}`
                 }
               }
-            const {data} = await axios.put(`/api/v1/chat/group/leave`, {
+            const {data} = await beeAxios.put(`/api/v1/chat/group/leave`, {
                 chatId: selectedChat?._id
             } ,config)
         
@@ -124,7 +124,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                   Authorization: `Bearer ${user?.token}`
                 }
             }
-            const {data} = await axios.put('/api/v1/chat/group/rename',{  
+            const {data} = await beeAxios.put('/api/v1/chat/group/rename',{  
                     chatId: selectedChat?._id, 
                     chatName: groupChatName
                 }, config)
@@ -158,7 +158,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
               Authorization: `Bearer ${user?.token}`
             }
           }
-          const {data} = await axios.get(`/api/v1/user?search=${search}`, config)
+          const {data} = await beeAxios.get(`/api/v1/user?search=${search}`, config)
     
           setLoading(false)
           setSearchResult(data.users)
@@ -204,7 +204,7 @@ const UpdateGroupChatModal: React.FC<UpdateGroupChatModalProps> = ({fetchAgain, 
                   Authorization: `Bearer ${user?.token}`
                 }
               }
-            const {data} = await axios.put(`/api/v1/chat/group/add-user`, {
+            const {data} = await beeAxios.put(`/api/v1/chat/group/add-user`, {
                 chatId: selectedChat?._id,
                 userId: userToAdd._id
             } ,config)
