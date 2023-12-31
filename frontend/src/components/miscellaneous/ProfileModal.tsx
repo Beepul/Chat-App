@@ -1,5 +1,4 @@
 import { Button, IconButton, Image, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
-import React, { Children } from 'react'
 import { User } from '../../types/UserType'
 import { FaRegEye } from "react-icons/fa";
 import { useChatState } from '../../context/ChatProvider';

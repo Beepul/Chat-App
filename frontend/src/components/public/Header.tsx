@@ -1,5 +1,4 @@
 import { Box, Image, Text } from '@chakra-ui/react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import { FaArrowRightLong } from "react-icons/fa6";

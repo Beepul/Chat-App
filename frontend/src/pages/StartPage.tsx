@@ -1,11 +1,10 @@
-import { Box, Container, Text } from '@chakra-ui/layout';
+import { Box, Container } from '@chakra-ui/layout';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import Header from '../components/public/Header';
-import { useChatState } from '../context/ChatProvider';
 
 const StartPage = () => {
   const navigate = useNavigate()

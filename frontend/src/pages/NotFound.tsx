@@ -1,5 +1,4 @@
-import { Box, Button, Image } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button } from '@chakra-ui/react'
 import Lottie from 'react-lottie'
 import { useNavigate } from 'react-router-dom'
 import animationData from '../assets/animations/404.json'

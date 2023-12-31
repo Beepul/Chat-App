@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Box, Button, Heading, Image, Text } from '@chakra-ui/react'
 import bannerOne from '../assets/ban-1.png'
 import { FaArrowRightLong } from "react-icons/fa6";
-import { useChatState } from '../context/ChatProvider'
 
 const HomePage = () => {
   const navigate = useNavigate()

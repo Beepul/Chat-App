@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, IconButton, Input, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Spinner, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { IoSearch } from "react-icons/io5";
 import { FaBell } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";

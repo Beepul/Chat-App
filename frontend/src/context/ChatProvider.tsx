@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { User } from "../types/UserType";
 import { ChatType } from "../types/ChatType";
 import { Message } from "../types/MessageType";
@@ -32,8 +31,6 @@ const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [chats, setChats] = useState<ChatType[]>([])
   const [notification,setNotification] = useState<Message[]>([])
   const [darkTheme, setDarkTheme] = useState<boolean>(false)
-
-  const navigate = useNavigate()
 
   useEffect(() => {
     const userData = localStorage.getItem('userInfo')

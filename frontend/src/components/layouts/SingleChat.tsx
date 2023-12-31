@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useChatState } from '../../context/ChatProvider';
 import { Box, FormControl, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react';
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -140,6 +140,7 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
     }
 
     const pickEmoji = (emoji: EmojiClickData, event: MouseEvent) => {
+        console.log('Emoji',event)
         if(msgInput.current){
             msgInput.current.focus()
             if(emoji && emoji.emoji){

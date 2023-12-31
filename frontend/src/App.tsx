@@ -1,9 +1,8 @@
-import {Routes, Route, Navigate, useNavigate} from 'react-router-dom'
+import {Routes, Route, useNavigate} from 'react-router-dom'
 import ChatPage from "./pages/ChatPage"
 import NotFound from "./pages/NotFound"
 import StartPage from "./pages/StartPage"
 import HomePage from "./pages/HomePage"
-import { useChatState } from './context/ChatProvider'
 import { ReactNode, useEffect } from 'react'
 
 type ProtectedRouteProps = {

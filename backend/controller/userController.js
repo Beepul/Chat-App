@@ -88,17 +88,9 @@ const loginUser = asyncHandler(async (req,res,next) => {
         throw new BMError(401, 'Invalid email or password')
     }
 
-    // sendCookie(res, user._id)
-    const refreshToken = generateRefreshToken(user._id)
+    sendCookie(res, user._id)
     
-    res.cookie('chatAppJWT',refreshToken,{
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
 
-    console.log('Cookie set:: ', res.getHeader('Set-Cookie'))
     res.status(200).json({
         success: true,
         user: {
@@ -139,8 +131,6 @@ const allUser = asyncHandler(async (req,res,next) => {
 const refresh = asyncHandler(async (req, res, next) => {
     const cookie = req.cookies
 
-    console.log('Cookie ::::', req.cookies)
-
     if(!cookie){
         return res.status(403).json({message: 'Unauthorized'})
     }
@@ -149,8 +139,6 @@ const refresh = asyncHandler(async (req, res, next) => {
 
     jwt.verify(refreshToken, process.env.JWT_SECRET, asyncHandler(async (err, decoded) => {
         if(err) return res.status(403).json({message: 'Forbidden'})
-
-        console.log('Decoded::', decoded)
 
         const foundUser = await User.findById(decoded.id)
 
