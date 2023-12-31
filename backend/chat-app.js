@@ -8,7 +8,6 @@ const fileUpload = require('express-fileupload')
 const cloudinaryConfig = require('./config/cloudinary')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
-const path = require('path')
 
 
 
@@ -34,27 +33,6 @@ app.use(cloudinaryConfig)
 app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/chat', chatRoutes)
 app.use('/api/v1/message', messageRoutes)
-
-// ---------------------- Development -----------------
-
-const __dirname1 = path.resolve(__dirname,'..')
-
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(__dirname1, '/frontend/dist')))
-
-    app.get('*', (req,res) => {
-        res.sendFile(path.resolve(__dirname1, 'frontend', 'dist', 'index.html'))
-    })
-}else{
-    app.get('/', (req,res) => {
-        res.send('API running successfully')
-    })
-}
-
-// ---------------------- Development -----------------
-
-
-
 
 app.use(errorHandler)
 
