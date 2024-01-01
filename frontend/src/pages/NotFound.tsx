@@ -1,18 +1,10 @@
 import { Box, Button } from '@chakra-ui/react'
-import Lottie from 'react-lottie'
+import Lottie from 'lottie-react'
 import { useNavigate } from 'react-router-dom'
 import animationData from '../assets/animations/404.json'
 
 const NotFound = () => {
   const navigate = useNavigate()
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
   return (
     <Box
     display={'flex'}
@@ -24,10 +16,17 @@ const NotFound = () => {
       <Box
       maxHeight={'70vh'}
       >
-        <Lottie 
+        <Lottie
+        animationData={animationData}
+        loop={true}
+        autoplay={true}
+        rendererSettings={{
+          preserveAspectRatio: "xMidYMid slice",
+        }}
+        width={300}
+        height={300}
         style={{maxHeight:'70vh', maxWidth: '600px'}}
-        options={defaultOptions}
-        />
+      />
       </Box>
       <Button
       onClick={() => navigate(-1)}

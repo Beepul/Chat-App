@@ -1,48 +1,27 @@
-import {Routes, Route, useNavigate} from 'react-router-dom'
-import ChatPage from "./pages/ChatPage"
-import NotFound from "./pages/NotFound"
-import StartPage from "./pages/StartPage"
-import HomePage from "./pages/HomePage"
-import { ReactNode, useEffect } from 'react'
-
-type ProtectedRouteProps = {
-  children: ReactNode;
-}
+import {Routes, Route} from 'react-router-dom'
+import ProtectedRoute from './routes/ProtectedRoute'
+import { Suspense, lazy } from 'react'
+import Loader from './components/public/Loader'
 
 
-const ProtectedRoute:React.FC<ProtectedRouteProps> = ({children}) => {
-  const navigate = useNavigate()
+const HomePage = lazy(() => import("./pages/HomePage"))
+const StartPage = lazy(() => import("./pages/StartPage"))
+const ChatPage = lazy(() => import("./pages/ChatPage"))
+const NotFound = lazy(() => import("./pages/NotFound"))
 
-  useEffect(() => {
-    const userDataString = localStorage.getItem('userInfo') ;
-
-    let userData = null
-    if(userDataString){
-      userData = JSON.parse(userDataString)
-    }
-  
-    if (!userData) {
-      navigate('/start');
-      return
-    }
-  }, []);
-  return children
-}
 
 function App() {
 
-  
-
   return (
-    <div 
-    
-    >
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/start" element={<StartPage />}/>
-        <Route path='/chats' element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+    <div>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/start" element={<StartPage />}/>
+          <Route path='/chats' element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </div>
   )
 }

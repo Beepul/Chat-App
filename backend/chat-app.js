@@ -34,6 +34,10 @@ app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/chat', chatRoutes)
 app.use('/api/v1/message', messageRoutes)
 
+app.use('/',(req,res) => {
+    res.send('Rapid Chat')
+})
+
 app.use(errorHandler)
 
 module.exports = app

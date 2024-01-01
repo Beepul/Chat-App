@@ -16,7 +16,7 @@ const ScrollableChat:React.FC<ScrollableChatProps> = ({messages}) => {
   return ( 
     <ScrollableFeed>
         {messages && messages.map((message, index) => (
-            <div style={{display: 'flex'}} key={index}>
+            <div style={{display: 'flex', alignItems: 'end'}} key={index}>
                 {(
                     isSameSender(messages,message,index,user?._id) || 
                     isLastMessage(messages,index,user?._id)

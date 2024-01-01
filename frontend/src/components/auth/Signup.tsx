@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { TAxiosError } from '../../types/ErrorType'
 import beeAxios from '../../config/axiosConfig'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
     const [name, setName] = useState('')
@@ -16,6 +17,8 @@ const Signup = () => {
     const [pic, setPic] = useState('')
     const [show, setShow] = useState(false)
     const toast = useToast()
+
+    const navigate = useNavigate()
 
     const postDetails = async (e:  React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement
@@ -96,18 +99,17 @@ const Signup = () => {
                     'Content-type': 'application/json'
                 }
             }
-            const {data} = await beeAxios.post('api/v1/user', {name, email, password, pic}, config)
+            await beeAxios.post('api/v1/user', {name, email, password, pic}, config)
             setLoading(false)
             toast({
-                title: 'Sign Up Seccessful',
+                title: 'Sign Up Successful',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
                 position: 'bottom'
             })
-            localStorage.setItem('userInfo', JSON.stringify(data.user))
             setLoading(false)
-            window.location.reload()
+            navigate('/')
         } catch (error: unknown) {
             const axiosError = error as TAxiosError
             setLoading(false)

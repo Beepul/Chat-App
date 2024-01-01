@@ -32,6 +32,7 @@ const ChatNavBar = () => {
 
   const logoutHandler = () => {
     setUser(null)
+    setSelectedChat(null)
     localStorage.removeItem('userInfo')
     socket.disconnect()
     navigate('/')

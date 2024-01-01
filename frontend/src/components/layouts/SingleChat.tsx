@@ -10,7 +10,7 @@ import ScrollableChat from './ScrollableChat';
 import { Message } from '../../types/MessageType';
 import {socket} from '../../config/socketConfig'
 import { ChatType } from '../../types/ChatType';
-import Lottie from 'react-lottie';
+import Lottie from 'lottie-react';
 import animationData from '../../assets/animations/typing.json';
 import { BsEmojiSmile } from "react-icons/bs";
 import EmojiPicker, { EmojiClickData, EmojiStyle } from 'emoji-picker-react';
@@ -37,15 +37,6 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
     const {user, selectedChat, setSelectedChat, notification, setNotification, darkTheme} = useChatState()
 
     const toast = useToast()
-
-    const defaultOPtions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        renderSetting: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    }
 
     const fetchMessages = async () => {
         if(!selectedChat){
@@ -251,11 +242,19 @@ const SingleChat: React.FC<SingleChatProps> = ({fetchAgain, setFetchAgain}) => {
                         </div>
                     )}
                     {isTyping ? <div>
-                            <Lottie 
-                                width={70}
-                                style={{marginBottom: 15, marginLeft: 0}}
-                                options={defaultOPtions}
-                            /> 
+                        <Lottie
+                            animationData={animationData}
+                            loop={true}
+                            autoplay={true}
+                            rendererSettings={{
+                            preserveAspectRatio: "xMidYMid slice",
+                            }}
+                            width={5}
+                            height={2}
+                            style={{maxHeight:'12px', maxWidth: '60px', marginTop:15 ,marginBottom: 15, marginLeft: 0}}
+                            
+                        />
+                            
                         </div>
                         : <></>}
                     
