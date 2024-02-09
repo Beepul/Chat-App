@@ -1,6 +1,4 @@
-require('dotenv').config({
-	path: 'config/.env'
-});
+require('dotenv').config();
 const app = require('./chat-app')
 const db = require('./config/db');
 const configureSocket = require('./socket');
