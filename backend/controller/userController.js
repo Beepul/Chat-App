@@ -85,7 +85,7 @@ const loginUser = asyncHandler(async (req,res,next) => {
     const isCorrectPassword = await user.matchPassword(password)
 
     if(!isCorrectPassword){
-        throw new BMError(401, 'Invalid email or password')
+        throw new BMError(400, 'Invalid email or password')
     }
 
     sendCookie(res, user._id)
