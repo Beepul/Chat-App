@@ -13,9 +13,11 @@ const morgan = require('morgan')
 // app server
 const app = express()
 
+console.log(process.env.FRONTEND_URL.split(','))
+
 app.use(express.json())
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL.split(','),
     credentials: true
 }))
 
